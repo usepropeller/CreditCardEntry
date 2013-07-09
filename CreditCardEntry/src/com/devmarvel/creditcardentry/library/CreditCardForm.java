@@ -38,20 +38,23 @@ public class CreditCardForm extends RelativeLayout {
 				LayoutParams.WRAP_CONTENT);
 		params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 		params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-		params.addRule(LinearLayout.HORIZONTAL);
-		params.setMargins(10, 40, 10, 0);
+		//params.addRule(LinearLayout.HORIZONTAL);
+		//params.setMargins(0, 0, 0, 0);
 		layout.setLayoutParams(params);
-		layout.setBackgroundResource(R.drawable.background_grey);
+		layout.setBackgroundColor(0x00000000);
 
 		FrameLayout frame = new FrameLayout(context);
 		params = new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT);
+
+
 		frame.setLayoutParams(params);
-		frame.setPadding(10, 10, 0, 0);
+		//frame.setPadding(0, 0, 0, 0);
 
 		ImageView view = new ImageView(context);
 		LayoutParams r = new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT);
+        view.setPadding(0,13,0,0);
 		view.setLayoutParams(r);
 		view.setImageResource(R.drawable.unknown_cc);
 
@@ -62,6 +65,7 @@ public class CreditCardForm extends RelativeLayout {
 				LayoutParams.WRAP_CONTENT);
 		backView.setLayoutParams(r);
 		backView.setImageResource(R.drawable.cc_back);
+		//backView.setImageResource(R.drawable.cc_back);
 		backView.setVisibility(View.GONE);
 
 		frame.addView(backView);
@@ -74,8 +78,8 @@ public class CreditCardForm extends RelativeLayout {
 		r = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT);
 		r.addRule(RelativeLayout.BELOW, layout.getId());
-		r.addRule(RelativeLayout.CENTER_HORIZONTAL);
-		r.setMargins(0, 30, 0, 0);
+		r.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+		//r.setMargins(0, 0, 0, 0);
 		textHelp.setLayoutParams(r);
 
 		entry = new CreditCardEntry(context);
