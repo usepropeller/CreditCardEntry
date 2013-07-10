@@ -2,6 +2,7 @@ package com.devmarvel.creditcardentry.library;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -41,20 +42,21 @@ public class CreditCardForm extends RelativeLayout {
 		//params.addRule(LinearLayout.HORIZONTAL);
 		//params.setMargins(0, 0, 0, 0);
 		layout.setLayoutParams(params);
-		layout.setBackgroundColor(0x00000000);
+        layout.setGravity(Gravity.CENTER_VERTICAL);
+
 
 		FrameLayout frame = new FrameLayout(context);
 		params = new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT);
 
 
+
 		frame.setLayoutParams(params);
-		//frame.setPadding(0, 0, 0, 0);
+		frame.setPadding(6, 0, 0, 0);
 
 		ImageView view = new ImageView(context);
 		LayoutParams r = new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT);
-        view.setPadding(0,13,0,0);
 		view.setLayoutParams(r);
 		view.setImageResource(R.drawable.unknown_cc);
 
@@ -81,6 +83,7 @@ public class CreditCardForm extends RelativeLayout {
 		r.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 		//r.setMargins(0, 0, 0, 0);
 		textHelp.setLayoutParams(r);
+        textHelp.setVisibility(View.GONE);
 
 		entry = new CreditCardEntry(context);
 		r = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
