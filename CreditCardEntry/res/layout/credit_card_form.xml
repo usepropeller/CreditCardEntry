@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+    <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:id="@+id/credit_card_data_container">
+        <FrameLayout
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:paddingLeft="6dip">
+            <ImageView
+                    android:id="@+id/credit_card_icon"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:src="@drawable/unknown_cc" />
+            <ImageView
+                    android:id="@+id/credit_card_back_icon"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:src="@drawable/cc_back" />
+        </FrameLayout>
+
+        <com.devmarvel.creditcardentry.internal.CreditCardEntry
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:id="@+id/credit_card_entry" />
+    </LinearLayout>
+
+    <TextView
+            android:id="@+id/credit_card_hint"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Enter credit or debit card number"
+            android:layout_below="@id/credit_card_data_container"
+            android:layout_alignParentLeft="true"/>
+
+</RelativeLayout>
