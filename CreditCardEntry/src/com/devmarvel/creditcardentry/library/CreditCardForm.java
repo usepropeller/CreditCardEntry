@@ -33,69 +33,12 @@ public class CreditCardForm extends RelativeLayout {
 	}
 
 	public void init(Context context) {
+        View.inflate(context, R.layout.credit_card_form, this);
 
-		LinearLayout layout = new LinearLayout(context);
-		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
-		params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-		params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-		//params.addRule(LinearLayout.HORIZONTAL);
-		//params.setMargins(0, 0, 0, 0);
-		layout.setLayoutParams(params);
-        layout.setGravity(Gravity.CENTER_VERTICAL);
-
-
-		FrameLayout frame = new FrameLayout(context);
-		params = new LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
-
-
-
-		frame.setLayoutParams(params);
-		frame.setPadding(6, 0, 0, 0);
-
-		ImageView view = new ImageView(context);
-		LayoutParams r = new LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
-		view.setLayoutParams(r);
-		view.setImageResource(R.drawable.unknown_cc);
-
-		frame.addView(view);
-
-		ImageView backView = new ImageView(context);
-		r = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
-		backView.setLayoutParams(r);
-		backView.setImageResource(R.drawable.cc_back);
-		//backView.setImageResource(R.drawable.cc_back);
-		backView.setVisibility(View.GONE);
-
-		frame.addView(backView);
-		layout.addView(frame);
-
-		layout.setId(1);
-
-		TextView textHelp = new TextView(context);
-		textHelp.setText("Enter credit or debit card number");
-		r = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
-		r.addRule(RelativeLayout.BELOW, layout.getId());
-		r.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-		//r.setMargins(0, 0, 0, 0);
-		textHelp.setLayoutParams(r);
-        textHelp.setVisibility(View.GONE);
-
-		entry = new CreditCardEntry(context);
-		r = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
-		entry.setLayoutParams(r);
-		entry.setCardImageView(view);
-		entry.setBackCardImage(backView);
-		entry.setTextHelper(textHelp);
-
-		layout.addView(entry);
-		this.addView(layout);
-		this.addView(textHelp);
+		entry = (CreditCardEntry) findViewById(R.id.credit_card_entry);
+		entry.setCardImageView((ImageView) findViewById(R.id.credit_card_icon));
+		entry.setBackCardImage((ImageView) findViewById(R.id.credit_card_back_icon));
+		entry.setTextHelper((TextView) findViewById(R.id.credit_card_hint));
 	}
 	
 	public boolean isCreditCardValid()
