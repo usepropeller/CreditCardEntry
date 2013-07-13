@@ -2,7 +2,8 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingLeft="6dip">
     <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
@@ -13,7 +14,7 @@
         <FrameLayout
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:paddingLeft="6dip">
+                >
             <ImageView
                     android:id="@+id/credit_card_icon"
                     android:layout_height="wrap_content"
@@ -23,7 +24,8 @@
                     android:id="@+id/credit_card_back_icon"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:src="@drawable/cc_back" />
+                    android:src="@drawable/cc_back"
+                    android:visibility="invisible"/>
         </FrameLayout>
 
         <com.devmarvel.creditcardentry.internal.CreditCardEntry
@@ -38,6 +40,7 @@
             android:layout_width="wrap_content"
             android:text="Enter credit or debit card number"
             android:layout_below="@id/credit_card_data_container"
-            android:layout_alignParentLeft="true"/>
+            android:layout_alignParentLeft="true"
+            android:visibility="gone"/>
 
 </RelativeLayout>
