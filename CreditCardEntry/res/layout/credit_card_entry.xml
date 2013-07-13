@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/credit_card_entry_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+    <com.devmarvel.creditcardentry.fields.CreditCardText
+            android:id="@+id/credit_card_text_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"/>
+
+    <com.devmarvel.creditcardentry.fields.ExpDateText
+            android:id="@+id/credit_card_exp_date_field"
+            android:layout_toRightOf="@id/credit_card_text_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    <com.devmarvel.creditcardentry.fields.SecurityCodeText
+            android:id="@+id/credit_card_security_code_field"
+            android:layout_toRightOf="@id/credit_card_exp_date_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    <com.devmarvel.creditcardentry.fields.ZipCodeText
+            android:id="@+id/credit_card_zip_code_field"
+            android:layout_toRightOf="@id/credit_card_security_code_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+</RelativeLayout>

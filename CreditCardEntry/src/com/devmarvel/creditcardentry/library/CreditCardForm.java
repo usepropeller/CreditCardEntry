@@ -32,7 +32,7 @@ public class CreditCardForm extends RelativeLayout {
 		init(context);
 	}
 
-	public void init(Context context) {
+	private void init(Context context) {
         View.inflate(context, R.layout.credit_card_form, this);
 
 		entry = (CreditCardEntry) findViewById(R.id.credit_card_entry);

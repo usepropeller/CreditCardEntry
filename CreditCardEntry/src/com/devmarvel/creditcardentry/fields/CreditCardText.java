@@ -102,7 +102,6 @@ public class CreditCardText extends CreditEntryFieldBase {
 
 	public void setDelegate(CreditCardFieldDelegate delegate) {
 		this.delegate = delegate;
-		delegate.focusOnField(this);
 	}
 
 	public CardType getType() {

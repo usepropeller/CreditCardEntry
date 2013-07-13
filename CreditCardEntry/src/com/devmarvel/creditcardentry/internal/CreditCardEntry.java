@@ -3,15 +3,18 @@ package com.devmarvel.creditcardentry.internal;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -19,6 +22,7 @@ import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.devmarvel.creditcardentry.R;
@@ -36,7 +40,7 @@ public class CreditCardEntry extends HorizontalScrollView implements
 
 	private Context context;
 
-	private LinearLayout container;
+	private RelativeLayout container;
 
 	private ImageView cardImage;
 	private ImageView backCardImage;
@@ -45,80 +49,50 @@ public class CreditCardEntry extends HorizontalScrollView implements
 	private SecurityCodeText securityCodeText;
 	private ZipCodeText zipCodeText;
 
-	private TextView textFourDigits;
-
 	private TextView textHelper;
 
+    private Paint measurementPaint = new Paint();
+
+    public enum State {
+        STARTING, CREDIT_CARD, INFO
+    }
+    private State state = State.STARTING;
+    private CreditEntryFieldBase focusedField;
 	private boolean showingBack;
 
-	@SuppressWarnings("deprecation")
-	@SuppressLint("NewApi")
-	public CreditCardEntry(Context context) {
-		super(context);
+    public CreditCardEntry(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(context);
+    }
 
+    public CreditCardEntry(Context context) {
+        super(context);
+        init(context);
+    }
+
+	private void init(Context context) {
+        View.inflate(context, R.layout.credit_card_entry, this);
 		this.context = context;
-
-		WindowManager wm = (WindowManager) context
-				.getSystemService(Context.WINDOW_SERVICE);
-		Display display = wm.getDefaultDisplay();
-
-		int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-		int width, height;
-
-		if (currentapiVersion < 13) {
-			width = display.getWidth(); // deprecated
-			height = display.getHeight();
-		} else {
-			Point size = new Point();
-			display.getSize(size);
-			width = size.x;
-			height = size.y;
-		}
-
-		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
-		setLayoutParams(params);
 
 		this.setHorizontalScrollBarEnabled(false);
 		this.setOnTouchListener(this);
 		this.setSmoothScrollingEnabled(true);
 
-		container = new LinearLayout(context);
-		container.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT));
-		container.setOrientation(LinearLayout.HORIZONTAL);
+		container = (RelativeLayout) findViewById(R.id.credit_card_entry_container);
 
-		creditCardText = new CreditCardText(context);
-		creditCardText.setDelegate(this);
-		creditCardText.setWidth((int) (width));
-		container.addView(creditCardText);
+        creditCardText = (CreditCardText) findViewById(R.id.credit_card_text_field);
+        measurementPaint.setTextSize(creditCardText.getTextSize());
 
-		textFourDigits = new TextView(context);
-		textFourDigits.setTextSize(20);
-		container.addView(textFourDigits);
+		expDateText = (ExpDateText) findViewById(R.id.credit_card_exp_date_field);
 
-		expDateText = new ExpDateText(context);
-		expDateText.setDelegate(this);
-		container.addView(expDateText);
+		securityCodeText = (SecurityCodeText) findViewById(R.id.credit_card_security_code_field);
 
-		securityCodeText = new SecurityCodeText(context);
-		securityCodeText.setDelegate(this);
-		container.addView(securityCodeText);
+		zipCodeText = (ZipCodeText) findViewById(R.id.credit_card_zip_code_field);
 
-		zipCodeText = new ZipCodeText(context);
-		zipCodeText.setDelegate(this);
-		container.addView(zipCodeText);
-
-		this.addView(container);
-
-		creditCardText.requestFocus();
-	}
-
-	@Override
-	protected void onFinishInflate() {
-		super.onFinishInflate();
-
-		focusOnField(creditCardText);
+        creditCardText.setDelegate(this);
+        expDateText.setDelegate(this);
+        securityCodeText.setDelegate(this);
+        zipCodeText.setDelegate(this);
 	}
 
 	@Override
@@ -168,12 +142,6 @@ public class CreditCardEntry extends HorizontalScrollView implements
 	@Override
 	public void onCreditCardNumberValid() {
 		focusOnField(expDateText);
-
-		String number = creditCardText.getText().toString();
-		int length = number.length();
-		String digits = number.substring(length - 4);
-		textFourDigits.setText(digits);
-		Log.i("CreditCardNumber", number);
 	}
 
 	@Override
@@ -227,41 +195,70 @@ public class CreditCardEntry extends HorizontalScrollView implements
 		cardImage.startAnimation(animator);
 	}
 
-	@Override
-	public void focusOnField(CreditEntryFieldBase field) {
-		field.setFocusableInTouchMode(true);
-		field.requestFocus();
-		field.setFocusableInTouchMode(false);
+	public void focusOnField(final CreditEntryFieldBase field) {
+        if (field == this.focusedField) {
+            return;
+        }
+
+        field.setFocusable(false);
 
 		if (this.textHelper != null) {
 			this.textHelper.setText(field.helperText());
 		}
 
-		if (field.getClass().equals(CreditCardText.class)) {
-			new CountDownTimer(1000, 20) {
+        final double transitionTime = 300;
+        final double tickInterval = 5;
 
+		if (field == creditCardText && this.state != State.CREDIT_CARD) {
+            CreditCardEntry.this.setState(State.CREDIT_CARD);
+
+            final long startOffset = this.computeHorizontalScrollOffset();
+            new CountDownTimer((long)transitionTime, (long)tickInterval) {
+                public void onTick(long millisUntilFinished) {
+                    double percentageComplete = (transitionTime - millisUntilFinished) / transitionTime;
+                    int scrollX = (int) (startOffset - (startOffset * percentageComplete));
+                    CreditCardEntry.this.scrollTo(scrollX, 0);
+                }
+
+                public void onFinish() {
+                    CreditCardEntry.this.scrollTo(0, 0);
+
+                    field.setFocusable(true);
+                    field.requestFocusFromTouch();
+                }
+            }.start();
+		} else if (field != creditCardText && this.state != State.INFO) {
+            this.setState(State.INFO);
+
+            String text = creditCardText.getText().toString();
+            String digits = text.substring(text.length() - 4);
+            final int sizeOfLastFour = (int)measurementPaint.measureText(digits) + 10;
+
+            container.setPadding(0,0,sizeOfLastFour,0);
+
+            final  int endPosition = creditCardText.getWidth() - sizeOfLastFour;
+
+            new CountDownTimer((long)transitionTime, (long)tickInterval) {
 				public void onTick(long millisUntilFinished) {
-					CreditCardEntry.this.scrollTo((int) (millisUntilFinished),
-							0);
+                    double percentageComplete = (transitionTime - millisUntilFinished) / transitionTime;
+                    int scrollX = (int) (endPosition * percentageComplete);
+
+                    CreditCardEntry.this.scrollTo(scrollX, 0);
 				}
 
 				public void onFinish() {
-					CreditCardEntry.this.scrollTo(0, 0);
-				}
-			}.start();
-		} else {
-			new CountDownTimer(1500, 20) {
+                    CreditCardEntry.this.scrollTo(endPosition, 0);
 
-				public void onTick(long millisUntilFinished) {
-					CreditCardEntry.this.scrollTo(
-							(int) (2000 - millisUntilFinished), 0);
-				}
-
-				public void onFinish() {
-
-				}
+                    field.setFocusable(true);
+                    field.requestFocusFromTouch();
+                }
 			}.start();
 		}
+        else {
+            field.setFocusable(true);
+            field.requestFocusFromTouch();
+        }
+        this.focusedField = field;
 
 		if (field.getClass().equals(SecurityCodeText.class)) {
 			((SecurityCodeText) field).setType(creditCardText.getType());
@@ -270,6 +267,10 @@ public class CreditCardEntry extends HorizontalScrollView implements
 			updateCardImage(false);
 		}
 	}
+
+    private void setState(State state) {
+        this.state = state;
+    }
 
 	@Override
 	public void focusOnPreviousField(CreditEntryFieldBase field) {
