@@ -45,9 +45,17 @@ public class SecurityCodeText extends CreditEntryFieldBase {
 		if (type != null) {
 			String number = s.toString();
 
-			if (number.length() == length) {
-				delegate.onSecurityCodeValid();
-				setValid(true);
+			if (number.length() >= length) {
+
+                if (number.length()>length){
+                    s.delete(3, s.length());
+                    delegate.onSecurityCodeValid();
+                    setValid(true);
+                }
+                else{
+                    delegate.onSecurityCodeValid();
+                    setValid(true);
+                }
 			}
 			else
 			{
@@ -69,7 +77,7 @@ public class SecurityCodeText extends CreditEntryFieldBase {
 		this.type = type;
 		this.length = CreditCardUtil.securityCodeValid(type);
 		
-		setFilters(new InputFilter[] { new InputFilter.LengthFilter(length) });
+		//setFilters(new InputFilter[] { new InputFilter.LengthFilter(length) });
 	}
 	
 	@Override

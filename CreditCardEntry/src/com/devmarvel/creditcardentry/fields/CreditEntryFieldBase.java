@@ -162,6 +162,9 @@ public abstract class CreditEntryFieldBase extends EditText implements
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT);
 		setSelection(getText().toString().length());
+        if (this.getDelegate()!=null){
+            this.getDelegate().focusOnField(this);
+        }
 		setFocusableInTouchMode(false);
 	}
 
