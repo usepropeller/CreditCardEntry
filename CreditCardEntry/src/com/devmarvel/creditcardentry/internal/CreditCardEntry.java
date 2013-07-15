@@ -9,6 +9,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
@@ -232,7 +233,8 @@ public class CreditCardEntry extends HorizontalScrollView implements
 
             String text = creditCardText.getText().toString();
             String digits = text.substring(text.length() - 4);
-            final int sizeOfLastFour = (int)measurementPaint.measureText(digits) + 10;
+            int sizeDPI = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, getContext().getResources().getDisplayMetrics());
+            final int sizeOfLastFour = (int)measurementPaint.measureText(digits) + sizeDPI;
 
             container.setPadding(0,0,sizeOfLastFour,0);
 
