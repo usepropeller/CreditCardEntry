@@ -9,6 +9,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.util.TypedValue;
 import android.widget.EditText;
 
 import com.devmarvel.creditcardentry.R;
@@ -214,6 +216,10 @@ public class CreditCardUtil {
 
 		return idx;
 	}
+
+    public static int getDIPfromDPI(int oldSize, Context context){
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, oldSize, context.getResources().getDisplayMetrics());
+    }
 
 	public static int lengthOfFormattedStringForType(CardType type) {
 		int idx = 0;
