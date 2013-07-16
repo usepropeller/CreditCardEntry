@@ -56,6 +56,15 @@ public class ExpDateText extends CreditEntryFieldBase {
 				delegate.onExpirationDateValid();
 				setValid(true);
 			}
+
+
+            if(formatted.length() >= 5)
+            {
+                formatted = formatted.substring(0, formatted.length()-1);
+                delegate.onExpirationDateValid();
+                setValid(true);
+            }
+
 			else if(formatted.length() < updatedString.length())
 			{
 				delegate.onBadInput(this);
