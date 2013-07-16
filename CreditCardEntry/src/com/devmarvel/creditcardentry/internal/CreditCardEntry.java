@@ -94,7 +94,9 @@ public class CreditCardEntry extends HorizontalScrollView implements
         expDateText.setDelegate(this);
         securityCodeText.setDelegate(this);
         zipCodeText.setDelegate(this);
-	}
+
+        makeFieldsSelectable(false);
+    }
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
@@ -143,6 +145,7 @@ public class CreditCardEntry extends HorizontalScrollView implements
 	@Override
 	public void onCreditCardNumberValid() {
 		focusOnField(expDateText);
+        makeFieldsSelectable(true);
 	}
 
 	@Override
@@ -232,9 +235,11 @@ public class CreditCardEntry extends HorizontalScrollView implements
             this.setState(State.INFO);
 
             String text = creditCardText.getText().toString();
+
+
             String digits = text.substring(text.length() - 4);
-            int sizeDPI = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, getContext().getResources().getDisplayMetrics());
-            final int sizeOfLastFour = (int)measurementPaint.measureText(digits) + sizeDPI;
+
+            final int sizeOfLastFour = (int)measurementPaint.measureText(digits) + CreditCardUtil.getDIPfromDPI(15, getContext());
 
             container.setPadding(0,0,sizeOfLastFour,0);
 
@@ -316,4 +321,48 @@ public class CreditCardEntry extends HorizontalScrollView implements
 			return null;
 		}
 	}
+
+    public void makeFieldsSelectable(boolean editable){
+        if (!editable){
+            expDateText.setClickable(false);
+            expDateText.setLongClickable(false);
+            expDateText.setFocusable(false);
+            expDateText.setFocusableInTouchMode(false);
+            expDateText.setCursorVisible(false);
+
+            securityCodeText.setClickable(false);
+            securityCodeText.setLongClickable(false);
+            securityCodeText.setFocusable(false);
+            securityCodeText.setFocusableInTouchMode(false);
+            securityCodeText.setCursorVisible(false);
+
+            zipCodeText.setClickable(false);
+            zipCodeText.setLongClickable(false);
+            zipCodeText.setFocusable(false);
+            zipCodeText.setFocusableInTouchMode(false);
+            zipCodeText.setCursorVisible(false);
+        }
+        else{
+            expDateText.setClickable(true);
+            expDateText.setLongClickable(true);
+            expDateText.setFocusable(true);
+            expDateText.setFocusableInTouchMode(true);
+            expDateText.setCursorVisible(true);
+
+            securityCodeText.setClickable(true);
+            securityCodeText.setLongClickable(true);
+            securityCodeText.setFocusable(true);
+            securityCodeText.setFocusableInTouchMode(true);
+            securityCodeText.setCursorVisible(true);
+
+            zipCodeText.setClickable(true);
+            zipCodeText.setLongClickable(true);
+            zipCodeText.setFocusable(true);
+            zipCodeText.setFocusableInTouchMode(true);
+            zipCodeText.setCursorVisible(true);
+
+
+        }
+    }
+
 }
