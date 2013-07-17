@@ -20,17 +20,14 @@ public class CreditCardText extends CreditEntryFieldBase {
 
 	public CreditCardText(Context context) {
 		super(context);
-		init();
 	}
 
 	public CreditCardText(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init();
 	}
 
 	public CreditCardText(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		init();
 	}
 
 	public void init() {

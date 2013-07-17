@@ -11,17 +11,14 @@ public class ZipCodeText extends CreditEntryFieldBase {
 
 	public ZipCodeText(Context context) {
 		super(context);
-		init();
 	}
 
 	public ZipCodeText(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init();
 	}
 
 	public ZipCodeText(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		init();
 	}
 
 	public void init() {

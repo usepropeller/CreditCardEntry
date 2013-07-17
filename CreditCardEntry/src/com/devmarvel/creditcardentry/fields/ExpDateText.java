@@ -14,17 +14,14 @@ public class ExpDateText extends CreditEntryFieldBase {
 
 	public ExpDateText(Context context) {
 		super(context);
-		init();
 	}
 
 	public ExpDateText(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init();
 	}
 
 	public ExpDateText(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		init();
 	}
 
 	public void init() {

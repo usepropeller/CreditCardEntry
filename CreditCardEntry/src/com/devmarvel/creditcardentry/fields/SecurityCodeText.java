@@ -17,17 +17,14 @@ public class SecurityCodeText extends CreditEntryFieldBase {
 
 	public SecurityCodeText(Context context) {
 		super(context);
-		init();
 	}
 
 	public SecurityCodeText(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init();
 	}
 
 	public SecurityCodeText(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		init();
 	}
 
 	public void init() {
