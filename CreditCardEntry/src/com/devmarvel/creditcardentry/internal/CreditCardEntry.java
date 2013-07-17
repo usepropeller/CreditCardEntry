@@ -54,6 +54,8 @@ public class CreditCardEntry extends HorizontalScrollView implements
 
     private Paint measurementPaint = new Paint();
 
+    private CreditCard _creditCard = null;
+
     public enum State {
         STARTING, CREDIT_CARD, INFO
     }
@@ -312,6 +314,9 @@ public class CreditCardEntry extends HorizontalScrollView implements
 	}
 
 	public CreditCard getCreditCard() {
+        if (this._creditCard != null) {
+            return this._creditCard;
+        }
 		if (isCreditCardValid()) {
 			return new CreditCard(creditCardText.getText().toString(),
 					expDateText.getText().toString(), securityCodeText
